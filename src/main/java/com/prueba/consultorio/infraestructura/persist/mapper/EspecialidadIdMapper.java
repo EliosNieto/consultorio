@@ -1,0 +1,31 @@
+package com.prueba.consultorio.infraestructura.persist.mapper;
+
+import com.prueba.consultorio.application.domains.MedicoEspecialidad;
+import com.prueba.consultorio.infraestructura.persist.convert.EspecialidadBuild;
+import com.prueba.consultorio.infraestructura.persist.entity.EspecialidadEntity;
+import com.prueba.consultorio.infraestructura.persist.mapper.common.NonEmptyUUIDMap;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+
+import java.util.List;
+
+@Mapper(componentModel = "spring", uses = {NonEmptyUUIDMap.class})
+public interface EspecialidadIdMapper {
+
+    @Mappings({
+            @Mapping(source = "id.value", target = "id"),
+            @Mapping(source = "nombres.value", target = "nombres")
+    })
+    public EspecialidadEntity toEspecialidadEntity(MedicoEspecialidad medicoEspecialidad);
+
+    @InheritInverseConfiguration
+    @Mappings({
+            @Mapping(source = "id", target = "id")
+    })
+    public EspecialidadBuild toEspecialidadBuild(EspecialidadEntity especialidadEntity);
+    public List<EspecialidadBuild> toEspecialidadBuilds(Iterable<EspecialidadEntity> especialidadEntities);
+
+
+}
